@@ -143,7 +143,10 @@
             })()
 
         document.getElementById("colorButton").addEventListener("click", function() {
-            attention.toast();
+            attention.toast({
+                msg: "Hello World",
+                icon: "error",
+            });
         });
         
         const elem = document.getElementById('reservation_dates');
@@ -168,17 +171,60 @@
         }
 
         function Prompt() {
-            let toast = function() {
-                console.log("clicked button and got toast")
+            let toast = function(c) {
+                const {
+                    msg = "",
+                    icon = "success",
+                    position= "top-end",
+                } = c;
+                const Toast = Swal.mixin({
+                    toast: true,
+                    title: msg,
+                    position: position,
+                    icon: icon,
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire();
             }
 
-            let success = function () {
-                console.log("clicked button and got success")
+            let success = function (c) {
+                const {
+                    msg = "",
+                    title = "",
+                    footer = ""
+                } = c;
+                Swal.fire({
+                    icon: 'success',
+                    title: title,
+                    text: msg,
+                    footer: footer
+                })
+            }
+
+            let error = function (c) {
+                const {
+                    msg = "",
+                    title = "",
+                    footer = ""
+                } = c;
+                Swal.fire({
+                    icon: 'error',
+                    title: title,
+                    text: msg,
+                    footer: footer
+                })
             }
 
             return {
                 toast: toast,
                 success: success,
+                error: error,
             }
         }
     </script>
