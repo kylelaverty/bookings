@@ -11,3 +11,8 @@ This is the repository for my bookings and reservations project.
 - an auth system
 - database
 - email/txt sending
+
+## Other notes
+
+- To get the tmpl to work, install the vs code plugin for go templates and then assign *.tpml to html in vs code settings
+- On Windows, you may need to run with `go run .` from within the cmd\web directory
