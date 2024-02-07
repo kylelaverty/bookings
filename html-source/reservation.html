@@ -27,6 +27,10 @@
         .notie-container {
             box-shadow: none;
         }
+
+        .datepicker {
+            z-index: 10000;
+        }
     </style>
 </head>
 
@@ -72,10 +76,10 @@
                         <div class="col">
                             <div class="row" id="reservation_dates">
                                 <div class="col">
-                                    <input class="form-control" type="text" name="start" id="start" placeholder="Arrival" required>
+                                    <input class="form-control" type="text" name="start2" id="start2" placeholder="Arrival" required>
                                 </div>
                                 <div class="col">
-                                    <input class="form-control" type="text" name="end" id="end" placeholder="Departure" required>
+                                    <input class="form-control" type="text" name="end2" id="end2" placeholder="Departure" required>
                                 </div>
                             </div>
                         </div>
@@ -143,9 +147,25 @@
             })()
 
         document.getElementById("colorButton").addEventListener("click", function() {
-            attention.toast({
-                msg: "Hello World",
-                icon: "error",
+
+            // disabled="disabled" is an alteration from the course content to make the input fields readonly properly.
+            // flex row is an alteration from the course content to make the input fields display properly.
+            let html = `
+            <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+                <div class="d-flex flex-row justify-content-evenly" id="reservation-dates-modal">
+                    <div class="p-2">
+                        <input class="form-control" type="text" name="start" id="start" placeholder="Arrival" required disabled="disabled">
+                    </div>
+                    <div class="p-2">
+                        <input class="form-control" type="text" name="end" id="end" placeholder="Departure" required disabled="disabled">
+                    </div>
+                </div>
+            </form>
+            `;
+
+            attention.custom({
+                msg: html,
+                title: "Check Availability"
             });
         });
         
@@ -221,10 +241,51 @@
                 })
             }
 
+            async function custom(c){
+                const {
+                    msg = "",
+                    title = "",
+                } = c;
+
+                const {value: formValues} = await Swal.fire({
+                    title: title,
+                    html: msg,
+                    backdrop: false,
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    willOpen: () => {
+                        const elem = document.getElementById('reservation-dates-modal');
+                        const rangepicker = new DateRangePicker(elem, {
+                            format: 'yyyy-mm-dd',
+                            showOnFocus: true,
+                            orientation: "top",
+                        });
+                        console.log('willOpen');
+                    },
+                    didOpen: () => {
+                        document.getElementById('start').removeAttribute('disabled');
+                        document.getElementById('end').removeAttribute('disabled');
+                        console.log('didOpen');
+                    },
+                    preConfirm: () => {
+                        console.log('preConfirm');
+                        return [
+                            document.getElementById('start').value,
+                            document.getElementById('end').value
+                        ]
+                    }
+                })
+
+                if (formValues) {
+                    Swal.fire(JSON.stringify(formValues))
+                }
+            }
+
             return {
                 toast: toast,
                 success: success,
                 error: error,
+                custom: custom,
             }
         }
     </script>
