@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/kylelaverty/bookings/pkg/config"
-	"github.com/kylelaverty/bookings/pkg/handlers"
-	"github.com/kylelaverty/bookings/pkg/render"
+	"github.com/kylelaverty/bookings/internal/config"
+	"github.com/kylelaverty/bookings/internal/handlers"
+	"github.com/kylelaverty/bookings/internal/render"
 )
 
 var app config.AppConfig

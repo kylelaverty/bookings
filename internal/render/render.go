@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 
 	"github.com/justinas/nosurf"
-	"github.com/kylelaverty/bookings/pkg/config"
-	"github.com/kylelaverty/bookings/pkg/models"
+	"github.com/kylelaverty/bookings/internal/config"
+	"github.com/kylelaverty/bookings/internal/models"
 )
 
 var app *config.AppConfig

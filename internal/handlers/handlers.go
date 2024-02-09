@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/kylelaverty/bookings/pkg/config"
-	"github.com/kylelaverty/bookings/pkg/models"
-	"github.com/kylelaverty/bookings/pkg/render"
+	"github.com/kylelaverty/bookings/internal/config"
+	"github.com/kylelaverty/bookings/internal/models"
+	"github.com/kylelaverty/bookings/internal/render"
 )
 
 // Repo is the repository used by the handlers.
