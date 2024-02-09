@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/kylelaverty/bookings/internal/config"
+	"github.com/kylelaverty/bookings/internal/forms"
 	"github.com/kylelaverty/bookings/internal/models"
 	"github.com/kylelaverty/bookings/internal/render"
 )
@@ -57,7 +58,14 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
 // Reservation renders the make reservation page.
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateDate{})
+	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateDate{
+		Form: forms.New(nil),
+	})
+}
+
+// PostReservation handles posting a reservation form.
+func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
+
 }
 
 // Generals renders the generals quarters room page.
