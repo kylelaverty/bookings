@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/kylelaverty/bookings/internal/config"
 	"github.com/kylelaverty/bookings/internal/handlers"
+	"github.com/kylelaverty/bookings/internal/models"
 	"github.com/kylelaverty/bookings/internal/render"
 )
 
@@ -19,6 +21,8 @@ const portNumber = ":8080"
 
 // main is the entry point for the application.
 func main() {
+	// What will be placed in the session.
+	gob.Register(models.Reservation{})
 
 	// Change this to true when in production
 	app.InProduction = false
