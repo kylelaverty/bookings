@@ -16,3 +16,9 @@ This is the repository for my bookings and reservations project.
 
 - To get the tmpl to work, install the vs code plugin for go templates and then assign *.tpml to html in vs code settings
 - On Windows, you may need to run with `go run .` from within the cmd\web directory
+
+
+
+
+go test -coverprofile="coverage.out"
+go tool cover -html="coverage.out"
