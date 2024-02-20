@@ -20,11 +20,17 @@ This is the repository for my bookings and reservations project.
 
 
 ### Write Coverage Report
-- go test -coverprofile="coverage.out"
-- go tool cover -html="coverage.out"
+- coverage
+    - go test -coverprofile="coverage.out"
+    - go tool cover -html="coverage.out"
 
 
 - gotests 
+
+### Run everything
+- ./run.bat
+- Issues:
+    - TODO: does not appear to load all pages, will investigate later
 
 ## VSCode Commands
 - Go: Toggle Test Coverage in Current Package <= turn on the highlighting of the test coverage
