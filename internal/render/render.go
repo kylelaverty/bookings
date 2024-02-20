@@ -23,7 +23,7 @@ func NewTemplates(a *config.AppConfig) {
 }
 
 // AddDefaultData adds data for all templates.
-func AddDefaultData(td *models.TemplateDate, r *http.Request) *models.TemplateDate {
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
 	td.Flash = app.Session.PopString(r.Context(), "flash")
 	td.Warning = app.Session.PopString(r.Context(), "warning")
 	td.Error = app.Session.PopString(r.Context(), "error")
@@ -32,7 +32,7 @@ func AddDefaultData(td *models.TemplateDate, r *http.Request) *models.TemplateDa
 }
 
 // renderTemplate renders templates using html/template
-func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateDate) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
 
 	if app.UseCache {

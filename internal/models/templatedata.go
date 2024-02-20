@@ -3,7 +3,7 @@ package models
 import "github.com/kylelaverty/bookings/internal/forms"
 
 // TemplateData holds data sent from handlers to templates.
-type TemplateDate struct {
+type TemplateData struct {
 	StringMap map[string]string
 	IntMap    map[string]int
 	FloatMap  map[string]float32
