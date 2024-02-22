@@ -32,5 +32,11 @@ This is the repository for my bookings and reservations project.
 - Issues:
     - TODO: does not appear to load all pages, will investigate later
 
+### DB Migrations
+- soda g config
+    - create yaml file
+- soda generate fizz CreateUserTable
+    - creates the two migration files (up and down)
+
 ## VSCode Commands
 - Go: Toggle Test Coverage in Current Package <= turn on the highlighting of the test coverage
