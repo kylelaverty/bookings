@@ -5,17 +5,21 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/kylelaverty/bookings/internal/config"
 	"github.com/kylelaverty/bookings/internal/handlers"
+	"github.com/kylelaverty/bookings/internal/helpers"
 	"github.com/kylelaverty/bookings/internal/models"
 	"github.com/kylelaverty/bookings/internal/render"
 )
 
 var app config.AppConfig
 var session *scs.SessionManager
+var infoLog *log.Logger
+var errorLog *log.Logger
 
 const portNumber = ":8080"
 
@@ -46,6 +50,13 @@ func run() error {
 	// Change this to true when in production
 	app.InProduction = false
 
+	// Create a logger
+	infoLog := log.New(os.Stdout, "INFO\t", log.LstdFlags)
+	app.InfoLog = infoLog
+
+	errorLog := log.New(os.Stdout, "ERROR\t", log.LstdFlags|log.Lshortfile)
+	app.ErrorLog = errorLog
+
 	// Setup a session
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
@@ -66,8 +77,8 @@ func run() error {
 
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)
-
 	render.NewTemplates(&app)
+	helpers.NewHelpers(&app)
 
 	return nil
 }
