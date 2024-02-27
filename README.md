@@ -37,6 +37,12 @@ This is the repository for my bookings and reservations project.
     - create yaml file
 - soda generate fizz CreateUserTable
     - creates the two migration files (up and down)
+- soda migrate
+    - runs the migrations
+- soda migrate down
+    - undoes the migrations
+- soda reset
+    - resets the db by running all down and then up migrations
 
 ## VSCode Commands
 - Go: Toggle Test Coverage in Current Package <= turn on the highlighting of the test coverage
