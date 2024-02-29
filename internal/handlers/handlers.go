@@ -6,10 +6,13 @@ import (
 	"net/http"
 
 	"github.com/kylelaverty/bookings/internal/config"
+	"github.com/kylelaverty/bookings/internal/driver"
 	"github.com/kylelaverty/bookings/internal/forms"
 	"github.com/kylelaverty/bookings/internal/helpers"
 	"github.com/kylelaverty/bookings/internal/models"
 	"github.com/kylelaverty/bookings/internal/render"
+	"github.com/kylelaverty/bookings/internal/repository"
+	"github.com/kylelaverty/bookings/internal/repository/dbrepo"
 )
 
 // Repo is the repository used by the handlers.
@@ -18,12 +21,14 @@ var Repo *Repository
 // Repository is the repository type.
 type Repository struct {
 	App *config.AppConfig
+	DB  repository.DatabaseRepo
 }
 
 // NewRepo creates a new repository.
-func NewRepo(a *config.AppConfig) *Repository {
+func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
 		App: a,
+		DB:  dbrepo.NewPostgresRepo(a, db.SQL),
 	}
 }
 

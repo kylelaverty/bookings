@@ -10,6 +10,7 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/kylelaverty/bookings/internal/config"
+	"github.com/kylelaverty/bookings/internal/driver"
 	"github.com/kylelaverty/bookings/internal/handlers"
 	"github.com/kylelaverty/bookings/internal/helpers"
 	"github.com/kylelaverty/bookings/internal/models"
@@ -25,10 +26,11 @@ const portNumber = ":8080"
 
 // main is the entry point for the application.
 func main() {
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 
 	fmt.Printf("Starting application on port %s\n", portNumber)
 
@@ -43,7 +45,7 @@ func main() {
 	}
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	// What will be placed in the session.
 	gob.Register(models.Reservation{})
 
@@ -66,19 +68,27 @@ func run() error {
 
 	app.Session = session
 
+	// Connect to the database
+	log.Println("Connecting to database...")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings user=postgres password=XXXXXX sslmode=disable")
+	if err != nil {
+		log.Fatal("Cannot connect to database! Dying...")
+		return nil, err
+	}
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("cannot create template cache")
-		return err
+		return nil, err
 	}
 
 	app.TemplateCache = tc
 	app.UseCache = false
 
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&app)
 	helpers.NewHelpers(&app)
 
-	return nil
+	return db, nil
 }
