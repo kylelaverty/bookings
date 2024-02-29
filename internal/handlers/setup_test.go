@@ -27,6 +27,9 @@ var pathToTemplates = "../../templates"
 
 func getRoutes() http.Handler {
 	gob.Register(models.Reservation{})
+	gob.Register(models.User{})
+	gob.Register(models.Room{})
+	gob.Register(models.Restriction{})
 
 	app.InProduction = false
 
@@ -62,7 +65,7 @@ func getRoutes() http.Handler {
 
 	repo := NewRepo(&app, db)
 	NewHandlers(repo)
-	render.NewTemplates(&app)
+	render.NewRenderer(&app)
 
 	mux := chi.NewRouter()
 
