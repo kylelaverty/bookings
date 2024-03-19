@@ -69,6 +69,7 @@
                     const elem = document.getElementById('reservation-dates-modal');
                     const rangepicker = new DateRangePicker(elem, {
                         format: 'yyyy-mm-dd',
+                        minDate: new Date(),
                         showOnFocus: true,
                         orientation: "top",
                     });
@@ -84,6 +85,7 @@
                     let form = document.getElementById("check-availability-form");
                     let formData = new FormData(form);
                     formData.append("csrf_token", "{{.CSRFToken}}");
+                    formData.append("room_id", "1");
 
                     fetch('/search-availability-json', {
                         method: 'post',
@@ -91,7 +93,11 @@
                     })
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
+                            if (data.ok) {
+                                console.log("Room is available!")
+                            } else {
+                                console.log("Room is not available!")
+                            }
                         });
                 }
             });
