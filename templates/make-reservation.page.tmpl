@@ -4,12 +4,20 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>Make reservation</h1>
-                <p><strong>Reservation Details</strong></p>
-
                 {{$res := index .Data "reservation"}}
+
+                <h1>Make reservation</h1>
+                <p><strong>Reservation Details</strong><br>
+                    Room: {{$res.Room.RoomName}}<br>
+                    Arrival: {{index .StringMap "start_date"}}<br>
+                    Departure: {{index .StringMap "end_date"}}<br>
+                </p>
+                
                 <form method="post" action="/make-reservation" class="" novalidate>
                     <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                    <input type="hidden" name="start_date" value="{{index .StringMap "start_date"}}">
+                    <input type="hidden" name="end_date" value="{{index .StringMap "end_date"}}">
+                    <input type="hidden" name="room_id" value="{{$res.RoomID}}">
 
                     <div class="mt-5">
                         <label for="first_name" class="form-label">First name:</label>
@@ -25,21 +33,6 @@
                         {{end}}
                         <input type="text" class="form-control {{with .Form.Errors.Get "last_name"}} is-invalid {{end}}" name="last_name" id="last_name" autocomplete="off" value="{{$res.LastName}}" required>
                     </div>
-                    <div>
-                        <label for="start_date" class="form-label">Start Date:</label>
-                        {{with .Form.Errors.Get "start_date"}}
-                            <lable class="text-danger">{{.}}</lable>
-                        {{end}}
-                        <input type="date" class="form-control {{with .Form.Errors.Get "start_date"}} is-invalid {{end}}" name="start_date" id="start_date" autocomplete="off" value="{{$res.StartDate}}" required>
-                    </div>
-                    <div>
-                        <label for="end_date" class="form-label">End Date:</label>
-                        {{with .Form.Errors.Get "end_date"}}
-                            <lable class="text-danger">{{.}}</lable>
-                        {{end}}
-                        <input type="date" class="form-control {{with .Form.Errors.Get "end_date"}} is-invalid {{end}}" name="end_date" id="end_date" autocomplete="off" value="{{$res.EndDate}}" required>
-                    </div>
-                    <input type="hidden" name="room_id" value="1">
                     <div>
                         <label for="email" class="form-label">Email:</label>
                         {{with .Form.Errors.Get "email"}}
